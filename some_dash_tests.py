@@ -7,29 +7,33 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 
+mois_lettres = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"]
+
 app = dash.Dash(__name__, suppress_callback_exceptions=True, external_stylesheets=[dbc.themes.LITERA])
 
+
+def changer_mois_ch(colonne):
+    mois_lettres = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"]
+    # print(colonne-1)
+    return mois_lettres[colonne-1] 
 
 def recup_and_process_data():
     try:
         df = pd.read_csv("data/cleaned/terror.csv")
         
-        print(df.dtypes)
+        # print(df.dtypes)
         # regroupons les données par pays, année et mois
-        df_pays_morts_anim: pd.DataFrame = df.groupby(['country_txt', 'date', "imonth"], as_index = False).sum('nkill')
+        df: pd.DataFrame = df.groupby(['country_txt', 'iyear'], as_index = False).sum('nkill')
         
-        # changeons les noms des colonnes
-        df_pays_morts_anim.rename(columns={"country_txt": "Pays", "nkill": "Nombre de morts", "imonth": "Mois"}, inplace=True)
         
-        # trier par année
-        # df_pays_morts_anim.sort_values("Année")
+        df.rename(columns={"country_txt": "Pays", "nkill": "Nombre de morts", "iyear": "Année"}, inplace=True)
         
-        # definition de limites pour l'axe des ordonnées
-        range_y = [df_pays_morts_anim["Nombre de morts"].min()-30, df_pays_morts_anim["Nombre de morts"].max()+30]
+        fig = px.choropleth(df, locations="Pays", locationmode="country names", featureidkey="properties.name",
+                            color="Nombre de morts", color_continuous_scale="YlOrRd", scope="world", hover_name="Pays",
+                            )
+        fig.update_layout(margin = {"l":0, "r":0, "t":0, "b":0})
         
-        fig = px.line(df_pays_morts_anim ,x = "Mois", y = "Nombre de morts", color = "Pays", animation_frame="date", range_y=range_y)
-        
-        fig.update_layout(dict(title = dict(text = "Animation par année du nombre de morts par pays et par mois")))
+        fig.update_layout(dict(title = dict(text = "Animation par année de la représentation géographique du nombre de morts par pays")))
         
         return fig
     
