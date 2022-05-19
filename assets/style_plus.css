@@ -1,0 +1,25 @@
+.sidebar{
+    border-top-left-radius: 0!important;
+    border-bottom-left-radius: 0!important;
+    /* background-color: #28282817!important; */
+    /* box-shadow: ; */
+    transition: left 0.3s;
+}
+
+.sidebar:hover{
+    left:0!important;
+    /* background-color: #282828a2!important; */
+    transition: 0.4s
+}
+
+.nav-link:not(.active){
+    color: rgb(232 50 131)!important;
+    background-color: rgb(255 255 255)!important
+}
+
+.nav-link{
+    margin-top: 3px!important;
+}
+
+
+
