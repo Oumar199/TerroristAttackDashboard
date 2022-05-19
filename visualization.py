@@ -26,10 +26,13 @@ except Exception as e:
 #=========================================================================
 
 # configurer lien jquery
-external_scripts = ["https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"]
+external_scripts = ["https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js", "/assets/dynamique.js"]
+
+# configurer font-awesome pour les icones
+external_style = ["/assets/fontawesome/css/all.css"]
 
 # Initialisation de l'application
-app = dash.Dash(__name__, external_scripts = external_scripts, external_stylesheets=[dbc.icons.FONT_AWESOME])
+app = dash.Dash(__name__, external_scripts = external_scripts, external_stylesheets = external_style)
 
 #=========================================================================
 
@@ -55,39 +58,10 @@ pages = ["Nombre de cas", "Nombre de morts", "Cas par mois", "Morts par mois",
 ]
 
 # première liste de boutons (tests)
-[
-    dbc.NavLink("Nombre de cas",
-                href="/",
-                active="exact"),
-    dbc.NavLink("Nombre de morts",
-                href="/page-1",
-                active="exact"),
-    dbc.NavLink("Cas par mois",
-                href="/page-2",
-                active="exact"),
-    dbc.NavLink("Morts par mois",
-                href="/page-3",
-                active="exact"),
-    dbc.NavLink("Nouveaux cas par jour",
-                href="/page-4",
-                active="exact"),
-    dbc.NavLink("Cumul des cas par mois",
-                href="/page-5",
-                active="exact"),
-    dbc.NavLink("Cumul des morts par mois",
-                href="/page-6",
-                active="exact"),
-    dbc.NavLink("Morts par jour",
-                href="/page-7",
-                active="exact"),
-    dbc.NavLink("Top des pays - cas",
-                href="/page-8",
-                active="exact"),
-    dbc.NavLink("Top des pays - morts",
-                href="/page-9",
-                active="exact"),
-]
+navigations = [dbc.NavLink(pages[0], href = "/", active = "exact")]
 
+navigations.extend([dbc.NavLink(pages[i], href=f"/page-{i}", active="exact") for i in range(1, len(pages))])
+   
 #=========================================================================
 
 # Ajout de la barre de navigation
@@ -105,49 +79,28 @@ sidebar = dbc.Card(
                             className="lead"
                         ),
                         dbc.Nav(
-                            [
-                                dbc.NavLink("Nombre de cas",
-                                            href="/",
-                                            active="exact"),
-                                dbc.NavLink("Nombre de morts",
-                                            href="/page-1",
-                                            active="exact"),
-                                dbc.NavLink("Cas par mois",
-                                            href="/page-2",
-                                            active="exact"),
-                                dbc.NavLink("Morts par mois",
-                                            href="/page-3",
-                                            active="exact"),
-                                dbc.NavLink("Nouveaux cas par jour",
-                                            href="/page-4",
-                                            active="exact"),
-                                dbc.NavLink("Cumul des cas par mois",
-                                            href="/page-5",
-                                            active="exact"),
-                                dbc.NavLink("Cumul des morts par mois",
-                                            href="/page-6",
-                                            active="exact"),
-                                dbc.NavLink("Morts par jour",
-                                            href="/page-7",
-                                            active="exact"),
-                                dbc.NavLink("Top des pays - cas",
-                                            href="/page-8",
-                                            active="exact"),
-                                dbc.NavLink("Top des pays - morts",
-                                            href="/page-9",
-                                            active="exact"),
-                            ],
+                            navigations,
                             vertical=True,
                             pills=True,
                         ),
                     ]
                 ),
                 html.Div(
-                    dbc.Card(
-                        
-                    ),
-                    className="h-100",
-                    style={"position": "absolute", "top": 0, "left": "100%", "width": "80px", "backgroundColor": "red"}
+                    html.Div(
+                        [
+                            html.I(
+                                className="fa-solid fa-circle-arrow-right shadow-lg rounded-circle right-arrow icone-rose fa-3x",
+                                style={"position": "absolute", "top": "50%", "left": "30%"}
+                            ),
+                            html.I(
+                                className="fa-solid fa-circle-arrow-left shadow-lg rounded-circle left-arrow icone-rose fa-3x",
+                                style={"position": "absolute", "top": "50%", "left": "30%"}
+                            )
+                        ],
+                        className="h-100"
+                    ), 
+                    className="h-100 indic-slide shadow-md rounded-end",
+                    style={"position": "fixed", "top": 0, "left": "100%", "width": "80px"}
                 )
             ], 
             className="h-100",
@@ -158,13 +111,13 @@ sidebar = dbc.Card(
             
     
     color="light",
-    className="h-100 sidebar shadow-lg",
+    className="h-100 sidebar shadow-md pd-0",
     style={
             "width": "37rem",
-            "position": "absolute",
-            "overflowY": "auto",
+            "position": "fixed",
+            # "overflowY": "auto",
             "top": 0,
-            "left": "-40%"
+            "left": "-37rem"
         }
 )
 
