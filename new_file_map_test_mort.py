@@ -31,7 +31,7 @@ def make_figure():
                             locationmode="country names",
                             animation_frame="iyear",
                             color_continuous_scale="peach",
-                            template="plotly_dark")
+                            template="ggplot")
 
         fig.update_layout(title=dict(font=dict(size=28),x=0.5,xanchor='center'),
                           margin=dict(l=60, r=60, t=50, b=50))
