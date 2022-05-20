@@ -1,7 +1,13 @@
+<<<<<<< HEAD
 from packages import *
 from packages.fonctions.supprimer_valeurs import supprimer_valeurs
 from packages.fonctions.make_graphics import make_metrics, make_graphics
 #=========================================================================
+=======
+from data import *
+
+#=======================das==================================================
+>>>>>>> ee0896686a8249a72f6fb6bdfd86eb4d5964a920
 
 # récupération du temps pour les mises-à-jour
 # try:
@@ -34,6 +40,9 @@ external_style = ["/assets/fontawesome/css/all.css"]
 
 # Initialisation de l'application
 app = dash.Dash(__name__, external_scripts = external_scripts, external_stylesheets = external_style)
+
+# ajout server
+server = app.server
 
 #=========================================================================
 
