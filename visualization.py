@@ -1,6 +1,6 @@
 from data import *
 
-#=========================================================================
+#=======================das==================================================
 
 # récupération du temps pour les mises-à-jour
 # try:
@@ -33,6 +33,9 @@ external_style = ["/assets/fontawesome/css/all.css"]
 
 # Initialisation de l'application
 app = dash.Dash(__name__, external_scripts = external_scripts, external_stylesheets = external_style)
+
+# ajout server
+server = app.server
 
 #=========================================================================
 
