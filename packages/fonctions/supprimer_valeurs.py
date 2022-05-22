@@ -2,9 +2,10 @@ from packages import pd
 from packages import List
 
 
-
 # concevons une fonction qui permet d'éliminer des valeurs dans un jeu de données
-def supprimer_valeurs(data_frame: pd.DataFrame, colonne: str, valeurs: List)->pd.DataFrame:
+def supprimer_valeurs(
+    data_frame: pd.DataFrame, colonne: str, valeurs: List
+) -> pd.DataFrame:
     """Permet de supprimesr certaines valeurs dans un jeu de données
 
     Args:

@@ -1,6 +1,8 @@
 .sidebar{
     border-top-left-radius: 0!important;
     border-bottom-left-radius: 0!important;
+    /* overflow-x: hidden;
+    overflow-y: auto; */
     /* background-color: #28282817!important; */
     /* box-shadow: ; */
     transition: left 0.3s;
@@ -36,7 +38,7 @@
 
 .sidebar:hover .indic-slide{
     background-color: #e9e9e800;
-    left: 45rem;
+    left: 49rem;
     transition: 0.5s
 }
 
@@ -48,6 +50,29 @@
 .sidebar:hover .indic-slide .left-arrow{
     display: block!important;
     transition: 0.3s
+}
+
+#shad{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background-color: rgba(77, 71, 71, 0.288);
+    top: 0;
+    left: 0;
+    z-index: 80!important
+}
+
+.sidebar:hover ~ #shad{
+    display: block;
+}
+
+.nav-container{
+    transition: overflow-y 0.4s;
+}
+
+.sidebar:hover .nav-container{
+    overflow-y: scroll!important;
+    transition: overflow-y 0.3s
 }
 
 .nav-link:not(.active){
@@ -84,9 +109,11 @@
 
 label{
     text-transform: uppercase;
-    color: rgb(83, 22, 43)!important
+    color: #fff!important
 }
 
 #filtre{
     font-size: 12px!important
 }
+
+
