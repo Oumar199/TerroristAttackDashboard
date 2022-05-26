@@ -6,7 +6,8 @@ from packages.fonctions.remplacer_valeurs import remplacer_valeurs
 def graphique_1(df: pd.DataFrame):
     # recuperons les données en regroupant par pays et année
     df_pays_morts = df.groupby(["Pays", "Année"], as_index=False).sum("Nombre de morts")
-
+    if df_pays_morts.empty:
+        return '', None
     # tracons le graphique
     fig = px.line(df_pays_morts, x="Année", y="Nombre de morts", color="Pays")
 
@@ -22,7 +23,8 @@ def graphique_2(df: pd.DataFrame):
     df_region_morts = df.groupby(["Région", "Année"], as_index=False).sum(
         "Nombre de morts"
     )
-
+    if df_region_morts.empty:
+        return '', None
     # tracons le graphique
     fig = px.line(df_region_morts, x="Année", y="Nombre de morts", color="Région")
 
@@ -41,7 +43,8 @@ def graphique_3(df: pd.DataFrame):
     df_provetat_morts = df.groupby(["provstate", "Année"], as_index=False).sum(
         "Nombre de morts"
     )
-
+    if df_provetat_morts.empty:
+        return '', None
     # modifions le nom de la colonne provstate
     df_provetat_morts.rename(columns={"provstate": "Province/Etat"}, inplace=True)
     
@@ -104,7 +107,7 @@ def graphique_3(df: pd.DataFrame):
 
     # supprimons les valeurs non pertinentes
     df_provetat_morts = supprimer_valeurs(
-        df_provetat_morts, "Province/Etat", ["''", "Unknown", "unknown"]
+        df_provetat_morts, "Province/Etat", ['']
     )
 
     # tracons le graphique
@@ -122,7 +125,8 @@ def graphique_3(df: pd.DataFrame):
 def graphique_4(df: pd.DataFrame):
     # Sommons les nombres morts de morts par pays
     df_pays_geom = df.groupby("Pays", as_index=False).sum("Nombre de morts")
-
+    if df_pays_geom.empty:
+        return '', None
     # Tracons le choroplèthe en colorant suivant les nombres de morts
     fig = px.choropleth(
         df_pays_geom,
@@ -148,7 +152,8 @@ def graphique_5(df: pd.DataFrame):
     df_geom_evolution_morts = df.groupby(["Année", "Pays"], as_index=False)[
         "Nombre de morts"
     ].sum()
-
+    if df_geom_evolution_morts.empty:
+        return '', None
     # Tracons le choroplèthe en colorant suivant les nombres de morts
     fig = px.choropleth(
         df_geom_evolution_morts,
@@ -179,7 +184,8 @@ def graphique_6(df: pd.DataFrame):
     df_geom_evolution_blesses = df.groupby(["Année", "Pays"], as_index=False)[
         "Nombre de blessés"
     ].sum()
-
+    if df_geom_evolution_blesses.empty:
+        return '', None
     # Tracons le choroplèthe en colorant suivant les nombres de morts
     fig = px.choropleth(
         df_geom_evolution_blesses,
@@ -213,6 +219,8 @@ def graphique_7(df: pd.DataFrame):
         .cumsum()
         .reset_index()
     )
+    if data_nmort.empty:
+        return '', None
     fig = px.line(data_nmort, x="Année", y="Nombre de morts", color="Pays")
     title = "cumul annuel du nombre de morts par pays"
     return title, fig
@@ -226,24 +234,32 @@ def graphique_8(df: pd.DataFrame):
         .cumsum()
         .reset_index()
     )
+    if data_nmort_region.empty:
+        return '', None
     fig = px.line(data_nmort_region, x="Année", y="Nombre de morts", color="Région")
     title = "cumul annuel du nombre de morts causés par des attaques terroristes par région"
     return title, fig
 
 def graphique_9(df: pd.DataFrame):
     data_morts_attaques = df.groupby("attacktype1_txt", as_index=False).sum('Nombre de morts')
+    if data_morts_attaques.empty:
+        return '', None
     fig = px.pie(data_morts_attaques, names = "attacktype1_txt", values="Nombre de morts", labels={"attacktype1_txt", "Types d'attaques"})
     title = "Nombre de morts par types d'attaques"
     return title, fig
 
 def graphique_10(df: pd.DataFrame):
     data_blesses_attaques = df.groupby("attacktype1_txt", as_index=False).sum('Nombre de blessés')
+    if data_blesses_attaques.empty:
+        return '', None
     fig = px.pie(data_blesses_attaques, names = "attacktype1_txt", values="Nombre de blessés", labels={"attacktype1_txt", "Types d'attaques"})
     title = "Nombre de blessés par types d'attaques"
     return title, fig
 
 def graphique_11(df: pd.DataFrame):
     data_morts_blesses_pays_continent = df.groupby(["Région", "Pays"], as_index=False).sum(["Nombre de morts", "Nombre de blessés"])
+    if data_morts_blesses_pays_continent.empty:
+        return '', None
     fig = px.treemap(data_morts_blesses_pays_continent, path = [px.Constant("World"), "Région", "Pays"],
                      values = "Nombre de morts", color="Nombre de blessés", hover_data=["iso_alpha"],
                      color_continuous_scale="RdBu", color_continuous_midpoint=np.average(df["Nombre de blessés"], weights = df["Nombre de morts"]),
@@ -254,12 +270,16 @@ def graphique_11(df: pd.DataFrame):
 
 def graphique_12(df: pd.DataFrame):
     data_morts_pays_continent = df.groupby(["Région", "Pays"], as_index=False).sum("Nombre de morts")
+    if data_morts_pays_continent.empty:
+        return '', None
     fig = px.sunburst(data_morts_pays_continent, path = ["Région", "Pays"], values = "Nombre de morts")
     title = "Nombre de morts par pays et par région"
     return title, fig
 
 def graphique_13(df: pd.DataFrame):
     data_blesses_pays_continent = df.groupby(["Région", "Pays"], as_index=False).sum("Nombre de blessés")
+    if data_blesses_pays_continent.empty:
+        return '', None
     fig = px.sunburst(data_blesses_pays_continent, path = ["Région", "Pays"], values = "Nombre de blessés")
     title = "Nombre de blessés par pays et par région"
     return title, fig

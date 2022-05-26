@@ -7,7 +7,7 @@ def graphique_1(df: pd.DataFrame):
         df.groupby("claimmode_txt").size().reset_index(name="Nombre d'attaques")
     )
     mode_reclam = supprimer_valeurs(
-        data_frame=mode_reclam, colonne="claimmode_txt", valeurs=["''"]
+        data_frame=mode_reclam, colonne="claimmode_txt", valeurs=["''", "Unknown"]
     )
     fig = px.pie(
         mode_reclam,

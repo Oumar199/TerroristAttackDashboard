@@ -6,7 +6,7 @@ def traitement(df: pd.DataFrame):
     df_africa_sub_sahara = df[df["Région"] == "Sub-Saharan Africa"]
     df_africa_sub_sahara = df[df["Région"] == "Sub-Saharan Africa"]
     df_africa_north = df[df["Région"] == "Middle East & North Africa"]
-    df_africa = df_africa_sub_sahara.append(df_africa_north)
+    df_africa = pd.concat((df_africa_sub_sahara, df_africa_north))
 
     hors_africa = [
         "Jordan",
@@ -36,32 +36,33 @@ def traitement(df: pd.DataFrame):
     return df_africa
 
 
-def graphique_1(df: pd.DataFrame):
-    df_africa = traitement(df)
+def graphique_1(df_africa: pd.DataFrame):
     df_africa = (
-        df_africa.groupby(["Pays", "Année"]).sum("Nombre de morts").reset_index()
+        df_africa.groupby(["Année", "Pays"]).sum("Nombre de morts").reset_index()
     )
+    if df_africa.empty:
+        return '', None
     fig = px.treemap(
         df_africa,
         path = ["Année", "Pays"],
         values="Nombre de morts"
     )
 
-    title = "nombre d’africains morts du terrorisme par région et par année"
+    title = "nombre d’africains morts du terrorisme par pays africains et par année"
     return title, fig
 
 
-def graphique_2(df: pd.DataFrame):
-    df_africa = traitement(df)
+def graphique_2(df_africa: pd.DataFrame):
     df_blesse = (
-        df_africa.groupby(["Pays", "Année"]).sum("Nombre de blessés").reset_index()
+        df_africa.groupby(["Année", "Pays"], as_index=False).sum('Nombre de blessés')
     )
-    
+    if df_blesse.empty:
+        return '', None
     fig = px.treemap(
         df_blesse,
         path = ["Année", "Pays"],
         values="Nombre de blessés"
     )
 
-    title = "nombre d’attaques terroristes par année et par type d’attaque"
+    title = "nombre d’africains blessés à cause du terrorisme par pays africains et par année"
     return title, fig

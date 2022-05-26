@@ -8,6 +8,8 @@ def graphique_1(df: pd.DataFrame):
     ]
     grp_terr.sort_values("Nombre de morts", ascending=False, inplace=True)
     top10 = grp_terr.head(10)
+    if top10.empty:
+        return '', None
     fig = px.bar(
         top10,
         x="gname",
@@ -29,6 +31,8 @@ def graphique_2(df: pd.DataFrame):
         "Nombre d'attaques par groupe terroriste", ascending=False, inplace=True
     )
     top10_nbr_att_terr = nbr_att_terr.head(10)
+    if top10_nbr_att_terr.empty:
+        return '', None
     fig = px.bar(
         top10_nbr_att_terr,
         x="gname",
@@ -44,14 +48,16 @@ def graphique_3(df: pd.DataFrame):
     nat_ter = (
         df.groupby("natlty1_txt")
         .size()
-        .reset_index(name="Nombre de groupes terroristes")
+        .reset_index(name="Nombre d'attaques terroristes")
     )
-    nat_ter.sort_values("Nombre de groupes terroristes", ascending=False, inplace=True)
+    nat_ter.sort_values("Nombre d'attaques terroristes", ascending=False, inplace=True)
     top20 = nat_ter.head(20)
+    if top20.empty:
+        return '', None
     fig = px.pie(
         top20,
         names="natlty1_txt",
-        values="Nombre de groupes terroristes",
+        values="Nombre d'attaques terroristes",
         template="plotly_dark",
         labels={"natlty1_txt": "Nationalités des perpétrateurs"},
     )

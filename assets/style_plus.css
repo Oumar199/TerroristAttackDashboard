@@ -32,8 +32,8 @@
     transition: 0.3s
 }
 
-.icone-rose{
-    color: rgb(232 50 131);
+.icone-bleu{
+    color: #3498db;
 }
 
 .sidebar:hover .indic-slide{
@@ -93,23 +93,25 @@
 }
 
 .Select-value-label {
-    color: rgb(15, 79, 95);
+    color: rgb(15, 75, 90);
 }
 
 .VirtualizedSelectOption {
     background-color: white;
-    color: rgb(232 50 131);
+    padding: 8px!important;
+    color: rgb(32, 63, 71);
+    z-index: 70!important
 }
 
 .VirtualizedSelectFocusedOption {
-    background-color: rgb(232 50 131);
-    font-size: 18px;
+    background-color: rgb(14, 37, 43);
     color: white;
 }
 
 label{
     text-transform: uppercase;
-    color: #fff!important
+    color: #fff!important;
+    /* transition: 0.4s */
 }
 
 #filtre{
@@ -117,3 +119,31 @@ label{
 }
 
 
+
+/* .col-5:hover{
+    width: 70%!important;
+    position: fixed;
+    top: 2rem;
+    /* transition: 0.4s; */
+    /* z-index: 130!important;
+} */
+
+/* .visual{
+    position: absolute;
+    top: 2px;
+    right: 2px;
+} */
+
+/* .visual button{
+    font-size: small;
+    padding: 4px!important
+}  */
+
+/* 
+.visual button:hover ~ .visual button{
+    display: block;
+} */
+
+#graphics{
+    font-weight: bold
+}

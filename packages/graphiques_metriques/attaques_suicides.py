@@ -7,6 +7,8 @@ def graphique_1(df: pd.DataFrame):
         df.groupby(["Année", "suicide"]).size().reset_index(name="Nombre d'attaques")
     )
     num_attack = num_attack[num_attack["suicide"].isin([1])]
+    if num_attack.empty:
+        return '', None
     fig = px.bar(
         num_attack,
         x="Année",
@@ -24,6 +26,8 @@ def graphique_2(df: pd.DataFrame):
         .size()
         .reset_index(name="Nombre d'attaques suicides")
     )
+    if attaque_suicide_pays.empty:
+        return '', None
     fig = px.choropleth(
         attaque_suicide_pays,
         locations="Pays",
